@@ -24,10 +24,13 @@ const Login = () => {
     });
 
     if (error) {
+      const errorMessage = error.message === "Email not confirmed" 
+        ? "Please check your email and click the confirmation link to activate your account."
+        : error.message;
       toast({
         variant: "destructive",
         title: "Login failed",
-        description: error.message,
+        description: errorMessage,
       });
     } else {
       toast({
@@ -76,7 +79,7 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-background flex">
       {/* Left side - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 gradient-hero items-center justify-center p-12">
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-700 items-center justify-center p-12">
         <div className="text-center">
           <div className="flex items-center justify-center gap-3 mb-6">
             <Sparkles className="w-12 h-12 text-white" />
@@ -95,14 +98,14 @@ const Login = () => {
       <div className="flex-1 flex items-center justify-center p-8">
         <div className="w-full max-w-md">
           <div className="lg:hidden flex items-center justify-center gap-2 mb-8">
-            <Sparkles className="w-8 h-8 text-primary" />
+            <Sparkles className="w-8 h-8 text-emerald-500" />
             <span className="text-2xl font-bold">DesignAI</span>
           </div>
 
           <h2 className="text-2xl font-bold text-foreground mb-2">Welcome back</h2>
           <p className="text-muted-foreground mb-8">
             Don't have an account?{" "}
-            <Link to="/signup" className="text-primary hover:underline font-medium">
+            <Link to="/signup" className="text-emerald-600 hover:underline font-medium">
               Sign up
             </Link>
           </p>
@@ -152,12 +155,12 @@ const Login = () => {
                 <input type="checkbox" className="rounded border-border" />
                 <span className="text-sm text-muted-foreground">Remember me</span>
               </label>
-              <button type="button" className="text-sm text-primary hover:underline">
+              <button type="button" className="text-sm text-emerald-600 hover:underline">
                 Forgot password?
               </button>
             </div>
 
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button type="submit" className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700" disabled={loading}>
               {loading ? "Signing in..." : "Sign in"}
             </Button>
           </form>
