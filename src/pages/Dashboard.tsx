@@ -1,28 +1,49 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "@/components/Sidebar";
 import HeroSection from "@/components/HeroSection";
 import TemplatesSection from "@/components/TemplatesSection";
 import RecentDesigns from "@/components/RecentDesigns";
 import { Sparkles } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Dashboard = () => {
-  const [activeItem, setActiveItem] = useState("home");
+  const { user, profile, loading } = useAuth();
 
-  const handleSidebarClick = (item: string) => {
-    setActiveItem(item);
+  const getInitials = () => {
+    if (profile?.display_name) {
+      return profile.display_name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
+    }
+    if (user?.email) {
+      return user.email[0].toUpperCase();
+    }
+    return "U";
   };
 
   return (
     <div className="min-h-screen bg-background flex">
-      <Sidebar activeItem={activeItem} onItemClick={handleSidebarClick} />
+      <Sidebar />
       
       <main className="flex-1 ml-20">
         {/* Top banner */}
         <div className="bg-card border-b border-border px-4 py-2 flex items-center justify-between">
-          <Link to="/login" className="text-sm text-primary hover:underline font-medium">
-            Sign in
-          </Link>
+          {loading ? (
+            <div className="w-16 h-4 bg-muted animate-pulse rounded" />
+          ) : user ? (
+            <div className="flex items-center gap-2">
+              <Avatar className="w-6 h-6">
+                <AvatarImage src={profile?.avatar_url || ""} alt={profile?.display_name || "User"} />
+                <AvatarFallback className="text-xs bg-primary text-primary-foreground">
+                  {getInitials()}
+                </AvatarFallback>
+              </Avatar>
+              <span className="text-sm font-medium">{profile?.display_name || user.email?.split("@")[0]}</span>
+            </div>
+          ) : (
+            <Link to="/login" className="text-sm text-primary hover:underline font-medium">
+              Sign in
+            </Link>
+          )}
           <Link 
             to="/signup" 
             className="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-full text-sm font-medium hover:bg-secondary transition-colors"
