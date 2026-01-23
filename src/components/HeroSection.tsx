@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import TabNavigation from "./TabNavigation";
 import CategoryIcon from "./CategoryIcon";
@@ -33,6 +34,19 @@ const categories = [
 const HeroSection = () => {
   const [searchValue, setSearchValue] = useState("");
   const [activeTab, setActiveTab] = useState("designs");
+  const navigate = useNavigate();
+
+  const handleCategoryClick = (category: string) => {
+    // Navigate to editor with the selected category
+    navigate(`/editor?type=${encodeURIComponent(category)}`);
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchValue.trim()) {
+      navigate(`/templates?search=${encodeURIComponent(searchValue)}`);
+    }
+  };
 
   return (
     <section className="gradient-hero py-12 px-8">
@@ -43,9 +57,9 @@ const HeroSection = () => {
         
         <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
         
-        <div className="mt-6">
+        <form onSubmit={handleSearch} className="mt-6">
           <SearchBar value={searchValue} onChange={setSearchValue} />
-        </div>
+        </form>
         
         <div className="flex flex-wrap items-center justify-center gap-6 mt-10">
           {categories.map((category) => (
@@ -55,6 +69,7 @@ const HeroSection = () => {
               label={category.label}
               bgColor={category.bgColor}
               iconColor={category.iconColor}
+              onClick={() => handleCategoryClick(category.label)}
             />
           ))}
         </div>

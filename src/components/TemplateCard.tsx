@@ -1,4 +1,5 @@
 import { ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface TemplateCardProps {
   title: string;
@@ -8,8 +9,18 @@ interface TemplateCardProps {
 }
 
 const TemplateCard = ({ title, gradient, image, onClick }: TemplateCardProps) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else {
+      navigate("/editor");
+    }
+  };
+
   return (
-    <button onClick={onClick} className={`template-card ${gradient} w-full aspect-[4/5] relative overflow-hidden`}>
+    <button onClick={handleClick} className={`template-card ${gradient} w-full aspect-[4/5] relative overflow-hidden`}>
       <div className="absolute inset-0 p-4 flex flex-col">
         <div className="flex items-center gap-1 text-white font-semibold text-sm">
           <span>{title}</span>

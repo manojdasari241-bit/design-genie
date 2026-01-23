@@ -1,5 +1,6 @@
-import { Plus, Home, FolderKanban, LayoutTemplate, Palette, Sparkles, MoreHorizontal, Bell, Menu } from "lucide-react";
+import { Plus, Home, FolderKanban, LayoutTemplate, Palette, Sparkles, MoreHorizontal, Bell, Menu, LogIn } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Link, useNavigate } from "react-router-dom";
 
 interface SidebarProps {
   activeItem: string;
@@ -7,15 +8,22 @@ interface SidebarProps {
 }
 
 const menuItems = [
-  { id: "create", icon: Plus, label: "Create", isCreate: true },
-  { id: "home", icon: Home, label: "Home" },
-  { id: "projects", icon: FolderKanban, label: "Projects" },
-  { id: "templates", icon: LayoutTemplate, label: "Templates" },
-  { id: "brand", icon: Palette, label: "Brand", hasBadge: true },
-  { id: "ai", icon: Sparkles, label: "DesignAI" },
+  { id: "create", icon: Plus, label: "Create", isCreate: true, path: "/editor" },
+  { id: "home", icon: Home, label: "Home", path: "/" },
+  { id: "projects", icon: FolderKanban, label: "Projects", path: "/" },
+  { id: "templates", icon: LayoutTemplate, label: "Templates", path: "/templates" },
+  { id: "brand", icon: Palette, label: "Brand", hasBadge: true, path: "/" },
+  { id: "ai", icon: Sparkles, label: "DesignAI", path: "/editor" },
 ];
 
 const Sidebar = ({ activeItem, onItemClick }: SidebarProps) => {
+  const navigate = useNavigate();
+
+  const handleItemClick = (item: typeof menuItems[0]) => {
+    onItemClick(item.id);
+    navigate(item.path);
+  };
+
   return (
     <aside className="w-20 bg-sidebar border-r border-sidebar-border flex flex-col items-center py-4 h-screen fixed left-0 top-0 z-50">
       <button className="p-2 hover:bg-sidebar-accent rounded-lg mb-4 text-sidebar-foreground">
@@ -26,7 +34,7 @@ const Sidebar = ({ activeItem, onItemClick }: SidebarProps) => {
         {menuItems.map((item) => (
           <button
             key={item.id}
-            onClick={() => onItemClick(item.id)}
+            onClick={() => handleItemClick(item)}
             className={cn(
               "sidebar-item relative",
               item.isCreate && "bg-primary text-primary-foreground hover:bg-primary/90 mb-2",
@@ -50,9 +58,12 @@ const Sidebar = ({ activeItem, onItemClick }: SidebarProps) => {
         <button className="sidebar-item">
           <Bell className="w-5 h-5" />
         </button>
-        <button className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm mx-auto">
-          U
-        </button>
+        <Link 
+          to="/login"
+          className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm mx-auto hover:bg-primary/90 transition-colors"
+        >
+          <LogIn className="w-5 h-5" />
+        </Link>
       </div>
     </aside>
   );
