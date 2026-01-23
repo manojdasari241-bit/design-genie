@@ -19,11 +19,17 @@ const Dashboard = () => {
       
       <main className="flex-1 ml-20">
         {/* Top banner */}
-        <div className="bg-card border-b border-border px-4 py-2 flex items-center justify-end">
-          <button className="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-full text-sm font-medium hover:bg-secondary transition-colors">
+        <div className="bg-card border-b border-border px-4 py-2 flex items-center justify-between">
+          <Link to="/login" className="text-sm text-primary hover:underline font-medium">
+            Sign in
+          </Link>
+          <Link 
+            to="/signup" 
+            className="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-full text-sm font-medium hover:bg-secondary transition-colors"
+          >
             <Sparkles className="w-4 h-4 text-category-orange" />
             <span>Start your trial for free</span>
-          </button>
+          </Link>
         </div>
         
         <HeroSection />
