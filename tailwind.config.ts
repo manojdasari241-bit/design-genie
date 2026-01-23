@@ -57,6 +57,19 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        category: {
+          orange: "hsl(var(--category-orange))",
+          pink: "hsl(var(--category-pink))",
+          red: "hsl(var(--category-red))",
+          blue: "hsl(var(--category-blue))",
+          purple: "hsl(var(--category-purple))",
+          green: "hsl(var(--category-green))",
+          cyan: "hsl(var(--category-cyan))",
+          teal: "hsl(var(--category-teal))",
+        },
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
