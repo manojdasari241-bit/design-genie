@@ -21,7 +21,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Skeleton } from "@/components/ui/skeleton";
+
 import { 
   Grid3X3, 
   List, 
@@ -81,10 +81,10 @@ const Projects = () => {
       <div className="flex min-h-screen bg-background">
         <Sidebar />
         <div className="flex-1 p-8">
-          <Skeleton className="h-10 w-48 mb-8" />
+          <div className="h-10 w-48 mb-8 animate-pulse rounded-md bg-muted" />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {[1, 2, 3, 4].map((i) => (
-              <Skeleton key={i} className="h-48 rounded-xl" />
+              <div key={i} className="h-48 rounded-xl animate-pulse bg-muted" />
             ))}
           </div>
         </div>
@@ -152,14 +152,14 @@ const Projects = () => {
           </div>
         </div>
 
-        {/* Loading State */}
+        {/* Content */}
         {loading ? (
           <div className={viewMode === "grid" 
             ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
             : "space-y-4"
           }>
             {[1, 2, 3, 4].map((i) => (
-              <Skeleton key={i} className={viewMode === "grid" ? "h-48 rounded-xl" : "h-20 rounded-lg"} />
+              <div key={i} className={`animate-pulse rounded-xl bg-muted ${viewMode === "grid" ? "h-48" : "h-20"}`} />
             ))}
           </div>
         ) : filteredDesigns.length === 0 ? (
