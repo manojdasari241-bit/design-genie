@@ -20,8 +20,10 @@ const TabNavigation = ({ activeTab, onTabChange }: TabNavigationProps) => {
           key={tab.id}
           onClick={() => onTabChange(tab.id)}
           className={cn(
-            "tab-button flex items-center gap-2",
-            activeTab === tab.id && "tab-button-active"
+            "px-4 py-2 rounded-full border text-sm font-medium transition-all flex items-center gap-2",
+            activeTab === tab.id
+              ? "bg-white text-primary border-white shadow-md font-semibold"
+              : "bg-white/10 text-white border-white/20 hover:bg-white/20 hover:border-white/40"
           )}
         >
           <tab.icon className="w-4 h-4" />

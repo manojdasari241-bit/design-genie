@@ -15,7 +15,7 @@ const CategoryIcon = ({ icon: Icon, label, bgColor, iconColor, onClick }: Catego
       <div className={cn("category-icon", bgColor)}>
         <Icon className={cn("w-6 h-6", iconColor)} />
       </div>
-      <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+      <span className="text-xs font-medium text-white/90 group-hover:text-white transition-colors drop-shadow-sm">
         {label}
       </span>
     </button>

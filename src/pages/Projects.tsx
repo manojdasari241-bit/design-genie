@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Sidebar from "@/components/Sidebar";
 import { useDesigns, Design } from "@/hooks/useDesigns";
 import { useAuth } from "@/hooks/useAuth";
@@ -22,18 +22,21 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Skeleton } from "@/components/ui/skeleton";
-import { 
-  Grid3X3, 
-  List, 
-  Plus, 
-  Search, 
-  MoreVertical, 
-  Edit2, 
-  Copy, 
+import {
+  Grid3X3,
+  List,
+  Plus,
+  Search,
+  MoreVertical,
+  Edit2,
+  Copy,
   Trash2,
-  FolderOpen
+  FolderOpen,
+  Sparkles,
+  ArrowRight
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import { templates } from "@/data/templateData";
 
 const Projects = () => {
   const navigate = useNavigate();
@@ -76,16 +79,21 @@ const Projects = () => {
     }
   };
 
+  // Show empty state with templates when there are no designs or user is not logged in
+  const showEmptyState = !loading && (filteredDesigns.length === 0 || !user);
+
   if (authLoading) {
     return (
       <div className="flex min-h-screen bg-background">
         <Sidebar />
-        <div className="flex-1 p-8">
-          <Skeleton className="h-10 w-48 mb-8" />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {[1, 2, 3, 4].map((i) => (
-              <Skeleton key={i} className="h-48 rounded-xl" />
-            ))}
+        <div className="flex-1 p-8 ml-20">
+          <div className="animate-pulse">
+            <div className="h-10 w-48 bg-muted rounded mb-8"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="h-48 bg-muted rounded-xl"></div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -96,7 +104,7 @@ const Projects = () => {
     return (
       <div className="flex min-h-screen bg-background">
         <Sidebar />
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex-1 flex items-center justify-center ml-20">
           <div className="text-center">
             <FolderOpen className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
             <h2 className="text-2xl font-semibold mb-2">Sign in to view your projects</h2>
@@ -113,7 +121,7 @@ const Projects = () => {
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar />
-      <div className="flex-1 p-8">
+      <div className="flex-1 p-8 ml-20">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-bold">Your Projects</h1>
@@ -154,7 +162,7 @@ const Projects = () => {
 
         {/* Loading State */}
         {loading ? (
-          <div className={viewMode === "grid" 
+          <div className={viewMode === "grid"
             ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
             : "space-y-4"
           }>
@@ -163,18 +171,73 @@ const Projects = () => {
             ))}
           </div>
         ) : filteredDesigns.length === 0 ? (
-          <div className="text-center py-16">
-            <FolderOpen className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-            <h2 className="text-xl font-semibold mb-2">
-              {searchQuery ? "No designs found" : "No designs yet"}
-            </h2>
-            <p className="text-muted-foreground mb-4">
-              {searchQuery
-                ? "Try a different search term"
-                : "Create your first design to get started"}
-            </p>
+          /* Empty State with Starter Templates */
+          <div className="py-8">
+            {/* No Projects Message */}
+            <div className="text-center mb-12">
+              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-primary/10 flex items-center justify-center">
+                <FolderOpen className="w-10 h-10 text-primary" />
+              </div>
+              <h2 className="text-2xl font-bold mb-2">
+                {searchQuery ? "No designs found" : "Welcome to Design Genie!"}
+              </h2>
+              <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                {searchQuery
+                  ? "Try a different search term"
+                  : "Create your first design from scratch or start with a template"}
+              </p>
+              {!searchQuery && (
+                <div className="flex items-center justify-center gap-4">
+                  <Button onClick={handleCreateDesign} size="lg" className="gap-2">
+                    <Plus className="w-5 h-5" />
+                    Create Blank Design
+                  </Button>
+                  <Button variant="outline" size="lg" className="gap-2" onClick={() => navigate("/templates")}>
+                    <Sparkles className="w-5 h-5" />
+                    Browse Templates
+                  </Button>
+                </div>
+              )}
+            </div>
+
+            {/* Starter Templates Section */}
             {!searchQuery && (
-              <Button onClick={handleCreateDesign}>Create Design</Button>
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h3 className="text-xl font-semibold">Start with a Template</h3>
+                    <p className="text-sm text-muted-foreground">Quick-start your project with these popular designs</p>
+                  </div>
+                  <Link to="/templates" className="text-sm text-primary hover:underline flex items-center gap-1">
+                    View all templates <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                  {templates.slice(0, 10).map((template) => (
+                    <Link
+                      key={template.id}
+                      to={`/editor?templateId=${template.id}`}
+                      className="group cursor-pointer"
+                    >
+                      <div className="aspect-[4/3] rounded-xl overflow-hidden bg-muted mb-2 relative border border-border hover:border-primary/50 transition-colors">
+                        <img
+                          src={template.thumbnail}
+                          alt={template.title}
+                          className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/10 transition-colors flex items-center justify-center">
+                          <span className="opacity-0 group-hover:opacity-100 bg-card px-3 py-1.5 rounded-lg text-sm font-medium shadow-lg transition-opacity">
+                            Use Template
+                          </span>
+                        </div>
+                      </div>
+                      <h4 className="text-sm font-medium truncate">{template.title}</h4>
+                      <p className="text-xs text-muted-foreground">{template.category}</p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
             )}
           </div>
         ) : viewMode === "grid" ? (

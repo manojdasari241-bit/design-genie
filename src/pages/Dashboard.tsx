@@ -1,14 +1,18 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "@/components/Sidebar";
 import HeroSection from "@/components/HeroSection";
 import TemplatesSection from "@/components/TemplatesSection";
 import RecentDesigns from "@/components/RecentDesigns";
+import TemplatesFeed from "@/components/TemplatesFeed";
+import MobileNav from "@/components/MobileNav";
 import { Sparkles } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Dashboard = () => {
   const { user, profile, loading } = useAuth();
+  const [activeTab, setActiveTab] = useState("designs");
 
   const getInitials = () => {
     if (profile?.display_name) {
@@ -21,10 +25,11 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-screen bg-background flex flex-col md:flex-row">
       <Sidebar />
-      
-      <main className="flex-1 ml-20">
+      <MobileNav />
+
+      <main className="flex-1 ml-0 md:ml-20 pb-20 md:pb-0 transition-all duration-300">
         {/* Top banner */}
         <div className="bg-card border-b border-border px-4 py-2 flex items-center justify-between">
           {loading ? (
@@ -44,18 +49,25 @@ const Dashboard = () => {
               Sign in
             </Link>
           )}
-          <Link 
-            to="/signup" 
+          <Link
+            to="/signup"
             className="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-full text-sm font-medium hover:bg-secondary transition-colors"
           >
             <Sparkles className="w-4 h-4 text-category-orange" />
             <span>Start your trial for free</span>
           </Link>
         </div>
-        
-        <HeroSection />
-        <TemplatesSection />
-        <RecentDesigns />
+
+        <HeroSection activeTab={activeTab} onTabChange={setActiveTab} />
+
+        {activeTab === "templates" ? (
+          <TemplatesFeed />
+        ) : (
+          <>
+            <TemplatesSection />
+            <RecentDesigns />
+          </>
+        )}
       </main>
     </div>
   );
