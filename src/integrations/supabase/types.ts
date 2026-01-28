@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      designs: {
+        Row: {
+          canvas_data: Json
+          created_at: string
+          description: string | null
+          height: number
+          id: string
+          is_template: boolean
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+          user_id: string
+          width: number
+        }
+        Insert: {
+          canvas_data?: Json
+          created_at?: string
+          description?: string | null
+          height?: number
+          id?: string
+          is_template?: boolean
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+          user_id: string
+          width?: number
+        }
+        Update: {
+          canvas_data?: Json
+          created_at?: string
+          description?: string | null
+          height?: number
+          id?: string
+          is_template?: boolean
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+          width?: number
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
