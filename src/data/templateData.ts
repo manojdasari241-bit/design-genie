@@ -1,0 +1,435 @@
+// Template data structure with canvas JSON for design templates
+import template1 from "@/assets/template-1.jpg";
+import template2 from "@/assets/template-2.jpg";
+import template3 from "@/assets/template-3.jpg";
+import template4 from "@/assets/template-4.jpg";
+import template5 from "@/assets/template-5.jpg";
+
+export interface DesignTemplate {
+    id: string;
+    title: string;
+    category: string;
+    subcategory?: string;
+    thumbnail: string;
+    width: number;
+    height: number;
+    canvasData: object;
+}
+
+export const templateCategories = [
+    "All",
+    "Social Media",
+    "Presentations",
+    "Videos",
+    "Print",
+    "Marketing",
+    "Education",
+] as const;
+
+export const templates: DesignTemplate[] = [
+    {
+        id: "template-1",
+        title: "Celebration Design",
+        category: "Social Media",
+        subcategory: "Instagram Post",
+        thumbnail: template1,
+        width: 1080,
+        height: 1080,
+        canvasData: {
+            version: "6.0.0",
+            objects: [
+                {
+                    type: "rect",
+                    left: 0,
+                    top: 0,
+                    width: 1080,
+                    height: 1080,
+                    fill: "#8B5CF6",
+                    selectable: false,
+                },
+                {
+                    type: "circle",
+                    left: 400,
+                    top: 300,
+                    radius: 200,
+                    fill: "#EC4899",
+                    stroke: "#DB2777",
+                    strokeWidth: 4,
+                },
+                {
+                    type: "i-text",
+                    left: 300,
+                    top: 600,
+                    text: "Celebrate!",
+                    fontSize: 72,
+                    fontFamily: "Impact, sans-serif",
+                    fill: "#ffffff",
+                    fontWeight: "bold",
+                },
+            ],
+            background: "#8B5CF6",
+        },
+    },
+    {
+        id: "template-2",
+        title: "Kite Festival",
+        category: "Social Media",
+        subcategory: "Facebook Post",
+        thumbnail: template2,
+        width: 1200,
+        height: 630,
+        canvasData: {
+            version: "6.0.0",
+            objects: [
+                {
+                    type: "rect",
+                    left: 0,
+                    top: 0,
+                    width: 1200,
+                    height: 630,
+                    fill: "#06B6D4",
+                    selectable: false,
+                },
+                {
+                    type: "i-text",
+                    left: 100,
+                    top: 200,
+                    text: "Kite Festival 2024",
+                    fontSize: 64,
+                    fontFamily: "Trebuchet MS, sans-serif",
+                    fill: "#ffffff",
+                    fontWeight: "bold",
+                },
+                {
+                    type: "i-text",
+                    left: 100,
+                    top: 300,
+                    text: "Join us for an amazing celebration!",
+                    fontSize: 32,
+                    fontFamily: "Arial, sans-serif",
+                    fill: "#ffffff",
+                },
+            ],
+            background: "#06B6D4",
+        },
+    },
+    {
+        id: "template-3",
+        title: "Harvest Festival",
+        category: "Print",
+        subcategory: "Poster",
+        thumbnail: template3,
+        width: 800,
+        height: 1200,
+        canvasData: {
+            version: "6.0.0",
+            objects: [
+                {
+                    type: "rect",
+                    left: 0,
+                    top: 0,
+                    width: 800,
+                    height: 1200,
+                    fill: "#F59E0B",
+                    selectable: false,
+                },
+                {
+                    type: "rect",
+                    left: 50,
+                    top: 50,
+                    width: 700,
+                    height: 1100,
+                    fill: "transparent",
+                    stroke: "#ffffff",
+                    strokeWidth: 8,
+                },
+                {
+                    type: "i-text",
+                    left: 150,
+                    top: 400,
+                    text: "HARVEST\nFESTIVAL",
+                    fontSize: 72,
+                    fontFamily: "Georgia, serif",
+                    fill: "#1F2937",
+                    textAlign: "center",
+                    fontWeight: "bold",
+                },
+            ],
+            background: "#F59E0B",
+        },
+    },
+    {
+        id: "template-4",
+        title: "Spring Floral",
+        category: "Marketing",
+        subcategory: "Banner",
+        thumbnail: template4,
+        width: 1200,
+        height: 400,
+        canvasData: {
+            version: "6.0.0",
+            objects: [
+                {
+                    type: "rect",
+                    left: 0,
+                    top: 0,
+                    width: 1200,
+                    height: 400,
+                    fill: "#22C55E",
+                    selectable: false,
+                },
+                {
+                    type: "circle",
+                    left: 50,
+                    top: 100,
+                    radius: 100,
+                    fill: "#EC4899",
+                    opacity: 0.7,
+                },
+                {
+                    type: "circle",
+                    left: 1050,
+                    top: 100,
+                    radius: 100,
+                    fill: "#EC4899",
+                    opacity: 0.7,
+                },
+                {
+                    type: "i-text",
+                    left: 350,
+                    top: 150,
+                    text: "Spring Sale - 50% Off!",
+                    fontSize: 48,
+                    fontFamily: "Verdana, sans-serif",
+                    fill: "#ffffff",
+                    fontWeight: "bold",
+                },
+            ],
+            background: "#22C55E",
+        },
+    },
+    {
+        id: "template-5",
+        title: "Patriotic Theme",
+        category: "Social Media",
+        subcategory: "Twitter Post",
+        thumbnail: template5,
+        width: 1200,
+        height: 675,
+        canvasData: {
+            version: "6.0.0",
+            objects: [
+                {
+                    type: "rect",
+                    left: 0,
+                    top: 0,
+                    width: 1200,
+                    height: 225,
+                    fill: "#FF9933",
+                    selectable: false,
+                },
+                {
+                    type: "rect",
+                    left: 0,
+                    top: 225,
+                    width: 1200,
+                    height: 225,
+                    fill: "#ffffff",
+                    selectable: false,
+                },
+                {
+                    type: "rect",
+                    left: 0,
+                    top: 450,
+                    width: 1200,
+                    height: 225,
+                    fill: "#138808",
+                    selectable: false,
+                },
+                {
+                    type: "circle",
+                    left: 550,
+                    top: 287,
+                    radius: 50,
+                    fill: "#000080",
+                    stroke: "#000080",
+                    strokeWidth: 2,
+                },
+                {
+                    type: "i-text",
+                    left: 400,
+                    top: 500,
+                    text: "Republic Day",
+                    fontSize: 48,
+                    fontFamily: "Times New Roman, serif",
+                    fill: "#ffffff",
+                    fontWeight: "bold",
+                },
+            ],
+            background: "#ffffff",
+        },
+    },
+    {
+        id: "template-6",
+        title: "Business Presentation",
+        category: "Presentations",
+        subcategory: "Slide",
+        thumbnail: template1,
+        width: 1920,
+        height: 1080,
+        canvasData: {
+            version: "6.0.0",
+            objects: [
+                {
+                    type: "rect",
+                    left: 0,
+                    top: 0,
+                    width: 1920,
+                    height: 1080,
+                    fill: "#1F2937",
+                    selectable: false,
+                },
+                {
+                    type: "rect",
+                    left: 0,
+                    top: 0,
+                    width: 10,
+                    height: 1080,
+                    fill: "#8B5CF6",
+                    selectable: false,
+                },
+                {
+                    type: "i-text",
+                    left: 100,
+                    top: 400,
+                    text: "Business Report 2024",
+                    fontSize: 72,
+                    fontFamily: "Inter, sans-serif",
+                    fill: "#ffffff",
+                    fontWeight: "bold",
+                },
+                {
+                    type: "i-text",
+                    left: 100,
+                    top: 500,
+                    text: "Annual Performance Overview",
+                    fontSize: 36,
+                    fontFamily: "Inter, sans-serif",
+                    fill: "#9CA3AF",
+                },
+            ],
+            background: "#1F2937",
+        },
+    },
+    {
+        id: "template-7",
+        title: "YouTube Thumbnail",
+        category: "Videos",
+        subcategory: "Thumbnail",
+        thumbnail: template2,
+        width: 1280,
+        height: 720,
+        canvasData: {
+            version: "6.0.0",
+            objects: [
+                {
+                    type: "rect",
+                    left: 0,
+                    top: 0,
+                    width: 1280,
+                    height: 720,
+                    fill: "#EF4444",
+                    selectable: false,
+                },
+                {
+                    type: "i-text",
+                    left: 100,
+                    top: 250,
+                    text: "WATCH NOW!",
+                    fontSize: 96,
+                    fontFamily: "Impact, sans-serif",
+                    fill: "#ffffff",
+                    fontWeight: "bold",
+                },
+                {
+                    type: "circle",
+                    left: 1050,
+                    top: 500,
+                    radius: 80,
+                    fill: "#ffffff",
+                },
+            ],
+            background: "#EF4444",
+        },
+    },
+    {
+        id: "template-8",
+        title: "Education Worksheet",
+        category: "Education",
+        subcategory: "Worksheet",
+        thumbnail: template3,
+        width: 800,
+        height: 1100,
+        canvasData: {
+            version: "6.0.0",
+            objects: [
+                {
+                    type: "rect",
+                    left: 0,
+                    top: 0,
+                    width: 800,
+                    height: 1100,
+                    fill: "#ffffff",
+                    selectable: false,
+                },
+                {
+                    type: "rect",
+                    left: 0,
+                    top: 0,
+                    width: 800,
+                    height: 100,
+                    fill: "#3B82F6",
+                    selectable: false,
+                },
+                {
+                    type: "i-text",
+                    left: 50,
+                    top: 30,
+                    text: "Math Worksheet",
+                    fontSize: 36,
+                    fontFamily: "Arial, sans-serif",
+                    fill: "#ffffff",
+                    fontWeight: "bold",
+                },
+                {
+                    type: "i-text",
+                    left: 50,
+                    top: 150,
+                    text: "Name: _______________",
+                    fontSize: 24,
+                    fontFamily: "Arial, sans-serif",
+                    fill: "#1F2937",
+                },
+                {
+                    type: "i-text",
+                    left: 50,
+                    top: 200,
+                    text: "Date: _______________",
+                    fontSize: 24,
+                    fontFamily: "Arial, sans-serif",
+                    fill: "#1F2937",
+                },
+            ],
+            background: "#ffffff",
+        },
+    },
+];
+
+export const getTemplateById = (id: string): DesignTemplate | undefined => {
+    return templates.find((t) => t.id === id);
+};
+
+export const getTemplatesByCategory = (category: string): DesignTemplate[] => {
+    if (category === "All") return templates;
+    return templates.filter((t) => t.category === category);
+};
