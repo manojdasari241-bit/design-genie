@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState, useCallback, forwardRef, useImperativeHandle } from "react";
 import { Canvas, Rect, Circle, IText, Image as FabricImage, FabricObject, Line, Polygon, Gradient } from "fabric";
 import CanvasToolbar from "./CanvasToolbar";
-import CanvasProperties from "./CanvasProperties";
+import CanvasTopToolbar from "./CanvasTopToolbar";
 import LayersPanel from "./LayersPanel";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -17,6 +17,7 @@ interface CanvasEditorProps {
 
 export interface CanvasEditorRef {
   getCanvasData: () => string | null;
+  downloadCanvas: (format: "png" | "jpg" | "pdf") => void;
 }
 
 const CanvasEditor = forwardRef<CanvasEditorRef, CanvasEditorProps>(
@@ -38,6 +39,9 @@ const CanvasEditor = forwardRef<CanvasEditorRef, CanvasEditorProps>(
         if (!fabricRef.current) return null;
         return JSON.stringify(fabricRef.current.toJSON());
       },
+      downloadCanvas: (format: "png" | "jpg" | "pdf" = "png") => {
+        downloadCanvas(format);
+      }
     }));
 
     // Initialize Fabric canvas
@@ -437,7 +441,7 @@ const CanvasEditor = forwardRef<CanvasEditorRef, CanvasEditorProps>(
     }, []);
 
     return (
-      <div className="flex flex-1 h-full">
+      <div className="flex flex-1 h-full overflow-hidden">
         <CanvasToolbar
           activeTool={activeTool}
           onToolClick={handleToolClick}
@@ -449,25 +453,25 @@ const CanvasEditor = forwardRef<CanvasEditorRef, CanvasEditorProps>(
           canRedo={historyIndex < canvasHistory.length - 1}
         />
 
-        <div className="flex-1 flex items-center justify-center bg-secondary overflow-auto p-8">
-          <div
-            className="shadow-2xl rounded-lg overflow-hidden"
-            style={{
-              transform: `scale(${zoom / 100})`,
-              transformOrigin: "center center",
-            }}
-          >
-            <canvas ref={canvasRef} />
+        <div className="flex-1 flex flex-col h-full min-w-0 bg-secondary">
+          <CanvasTopToolbar
+            selectedObject={selectedObject}
+            onUpdate={updateSelectedObject}
+            onDelete={deleteSelected}
+          />
+
+          <div className="flex-1 overflow-auto flex items-center justify-center p-8 relative">
+            <div
+              className="shadow-2xl rounded-lg overflow-hidden bg-white"
+              style={{
+                transform: `scale(${zoom / 100})`,
+                transformOrigin: "center center",
+              }}
+            >
+              <canvas ref={canvasRef} />
+            </div>
           </div>
         </div>
-
-        <CanvasProperties
-          selectedObject={selectedObject}
-          onUpdate={updateSelectedObject}
-          onDownload={downloadCanvas}
-          canvasWidth={width}
-          canvasHeight={height}
-        />
 
         <LayersPanel
           key={layersKey}

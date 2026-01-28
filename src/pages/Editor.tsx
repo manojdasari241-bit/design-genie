@@ -1,7 +1,13 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { ArrowLeft, Share2, ZoomIn, ZoomOut, Sparkles, Save, Check } from "lucide-react";
+import { ArrowLeft, Share2, ZoomIn, ZoomOut, Sparkles, Save, Check, Download } from "lucide-react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import CanvasEditor, { CanvasEditorRef } from "@/components/canvas/CanvasEditor";
 import { useDesigns } from "@/hooks/useDesigns";
 import { useAuth } from "@/hooks/useAuth";
@@ -180,12 +186,26 @@ const Editor = () => {
         </div>
 
         <div className="flex items-center gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="gap-2">
+                <Download className="w-4 h-4" />
+                Download
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => canvasRef.current?.downloadCanvas("png")}>
+                PNG (High Quality)
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => canvasRef.current?.downloadCanvas("jpg")}>
+                JPG (Compressed)
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           {user && (
             <Button
-              variant="outline"
-              size="sm"
-              onClick={() => saveDesign()}
-              disabled={isSaving}
+              variant="outline" size="sm" onClick={() => saveDesign()} disabled={isSaving}
             >
               <Save className="w-4 h-4 mr-2" />
               Save

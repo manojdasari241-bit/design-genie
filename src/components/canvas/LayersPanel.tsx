@@ -139,7 +139,7 @@ const LayersPanel = ({
     }, [canvas, draggedIndex, onLayersChange, handleDragEnd]);
 
     return (
-        <div className="w-56 bg-card border-r border-border flex flex-col">
+        <div className="w-56 bg-card border-l border-border flex flex-col">
             <div className="p-3 border-b border-border flex items-center gap-2">
                 <Layers className="w-4 h-4 text-muted-foreground" />
                 <h3 className="font-medium text-sm">Layers</h3>

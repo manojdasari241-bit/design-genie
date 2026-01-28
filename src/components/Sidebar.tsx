@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Plus, Home, FolderKanban, LayoutTemplate, Palette, Sparkles, MoreHorizontal, Bell, Menu, LogIn, LogOut, User, Trash2, X, Star } from "lucide-react";
+import { Plus, Home, FolderKanban, LayoutTemplate, Palette, Sparkles, MoreHorizontal, Bell, Menu, LogIn, LogOut, User, Trash2, X, Star, Settings, Moon, HelpCircle, Grid, CreditCard, ShoppingBag, Monitor, Users, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
@@ -120,7 +120,7 @@ const Sidebar = () => {
 
   return (
     <>
-      <aside className="hidden md:flex w-20 bg-sidebar border-r border-sidebar-border flex-col items-center py-4 h-screen fixed left-0 top-0 z-50 bg-white">
+      <aside className="hidden md:flex w-20 bg-sidebar border-r border-sidebar-border flex-col items-center py-4 h-screen fixed left-0 top-0 z-50">
         <button
           onClick={toggleMenu}
           className="p-2 hover:bg-muted rounded-lg mb-4 text-foreground transition-colors"
@@ -187,21 +187,83 @@ const Sidebar = () => {
                   </Avatar>
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent side="right" align="end" className="w-56 ml-2">
-                <div className="px-2 py-1.5">
-                  <p className="text-sm font-medium">{profile?.display_name || "User"}</p>
-                  <p className="text-xs text-muted-foreground">{user.email}</p>
+              <DropdownMenuContent side="right" align="end" className="w-80 ml-2 p-0 overflow-hidden shadow-xl border-border/50">
+                {/* Account Section */}
+                <div className="p-4 flex items-center gap-3 hover:bg-sidebar-accent/50 cursor-pointer transition-colors border-b border-border/50" onClick={() => navigate("/profile")}>
+                  <Avatar className="w-10 h-10 border border-border shrink-0">
+                    <AvatarImage src={profile?.avatar_url || ""} alt={profile?.display_name} />
+                    <AvatarFallback className="bg-primary text-primary-foreground font-semibold">{getInitials()}</AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold text-sm truncate text-foreground">{profile?.display_name || "User"}</p>
+                    <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-muted-foreground" />
                 </div>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => navigate("/profile")}>
-                  <User className="w-4 h-4 mr-2" />
-                  Profile Settings
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleSignOut} className="text-destructive">
-                  <LogOut className="w-4 h-4 mr-2" />
-                  Sign Out
-                </DropdownMenuItem>
+
+                {/* Teams Section */}
+                <div className="p-4">
+                  <p className="text-xs font-semibold text-muted-foreground mb-3 uppercase tracking-wider">Teams</p>
+                  <button className="w-full flex items-center justify-center gap-2 border border-border rounded-md py-2 hover:bg-secondary transition-colors text-sm font-medium text-foreground">
+                    <Users className="w-4 h-4" />
+                    Create team
+                  </button>
+                </div>
+
+                <DropdownMenuSeparator className="my-0" />
+
+                {/* Menu Options */}
+                <div className="py-2">
+                  <DropdownMenuItem className="px-4 py-2.5 cursor-pointer" onClick={() => navigate("/settings")}>
+                    <Settings className="w-4 h-4 mr-3 text-muted-foreground" />
+                    Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="px-4 py-2.5 cursor-pointer flex items-center justify-between">
+                    <div className="flex items-center">
+                      <Moon className="w-4 h-4 mr-3 text-muted-foreground" />
+                      Theme
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="px-4 py-2.5 cursor-pointer" onClick={() => toast({ title: "Coming Soon", description: "Help resources are on the way." })}>
+                    <HelpCircle className="w-4 h-4 mr-3 text-muted-foreground" />
+                    Help and resources
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="px-4 py-2.5 cursor-pointer flex items-center justify-between" onClick={() => navigate("/editor?tool=ai")}>
+                    <div className="flex items-center">
+                      <Grid className="w-4 h-4 mr-3 text-muted-foreground" />
+                      Advanced tools
+                    </div>
+                    <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-medium">Beta</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="px-4 py-2.5 cursor-pointer">
+                    <CreditCard className="w-4 h-4 mr-3 text-muted-foreground" />
+                    Plans and pricing
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="px-4 py-2.5 cursor-pointer">
+                    <ShoppingBag className="w-4 h-4 mr-3 text-muted-foreground" />
+                    Purchase history
+                  </DropdownMenuItem>
+                </div>
+
+                <DropdownMenuSeparator className="my-0" />
+
+                <div className="py-2">
+                  <DropdownMenuItem className="px-4 py-2.5 cursor-pointer">
+                    <Monitor className="w-4 h-4 mr-3 text-muted-foreground" />
+                    Get the Canva Apps
+                  </DropdownMenuItem>
+                </div>
+
+                <DropdownMenuSeparator className="my-0" />
+
+                <div className="py-2">
+                  <DropdownMenuItem onClick={handleSignOut} className="px-4 py-2.5 cursor-pointer text-destructive focus:text-destructive focus:bg-destructive/10">
+                    <LogOut className="w-4 h-4 mr-3" />
+                    Log out
+                  </DropdownMenuItem>
+                </div>
+
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
@@ -219,7 +281,7 @@ const Sidebar = () => {
       <div
         ref={sidebarRef}
         className={cn(
-          "fixed top-0 left-20 h-screen w-80 bg-[#f8f9fc] border-r shadow-xl transform transition-transform duration-300 ease-in-out z-40 overflow-y-auto",
+          "fixed top-0 left-20 h-screen w-80 bg-background border-r shadow-xl transform transition-transform duration-300 ease-in-out z-40 overflow-y-auto",
           isMenuOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
@@ -230,7 +292,7 @@ const Sidebar = () => {
           </div>
 
           {/* Star Promo Box */}
-          <div className="bg-white p-4 rounded-lg border border-dashed border-primary/30 mb-8 relative">
+          <div className="bg-card text-card-foreground p-4 rounded-lg border border-dashed border-primary/30 mb-8 relative">
             <button className="absolute top-2 right-2 text-muted-foreground hover:text-foreground">
               <X className="w-4 h-4" />
             </button>
@@ -241,14 +303,14 @@ const Sidebar = () => {
           </div>
 
           <div className="mb-8">
-            <h3 className="text-sm font-semibold text-gray-500 mb-4 ml-1">Recent designs</h3>
+            <h3 className="text-sm font-semibold text-muted-foreground mb-4 ml-1">Recent designs</h3>
             <div className="space-y-1">
               {sidebarRecentDesigns.map((design) => (
-                <div key={design.id} className="flex items-center gap-3 p-2 hover:bg-white hover:shadow-sm rounded-md cursor-pointer group transition-all">
-                  <div className="w-8 h-8 rounded bg-gray-100 flex items-center justify-center text-[10px] font-bold text-gray-500 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+                <div key={design.id} className="flex items-center gap-3 p-2 hover:bg-accent hover:text-accent-foreground hover:shadow-sm rounded-md cursor-pointer group transition-all">
+                  <div className="w-8 h-8 rounded bg-muted flex items-center justify-center text-[10px] font-bold text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary transition-colors">
                     {design.icon || <div className="w-full h-full bg-cover rounded" style={{ backgroundImage: `url(${design.imageUrl})` }} />}
                   </div>
-                  <span className="text-sm text-gray-700 font-medium truncate group-hover:text-primary transition-colors">{design.title}</span>
+                  <span className="text-sm text-foreground font-medium truncate group-hover:text-primary transition-colors">{design.title}</span>
                 </div>
               ))}
               <button className="w-full text-left text-sm text-primary font-medium hover:underline p-2 mt-2">
@@ -258,7 +320,7 @@ const Sidebar = () => {
           </div>
 
           <div className="mt-auto border-t pt-4">
-            <button className="flex items-center gap-3 p-2 w-full hover:bg-white hover:text-red-600 hover:shadow-sm rounded-md cursor-pointer transition-all text-gray-600">
+            <button className="flex items-center gap-3 p-2 w-full hover:bg-destructive/10 hover:text-destructive rounded-md cursor-pointer transition-all text-muted-foreground">
               <Trash2 className="w-5 h-5" />
               <span className="text-sm font-medium">Trash</span>
             </button>
