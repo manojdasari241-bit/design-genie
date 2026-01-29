@@ -32,12 +32,18 @@ const categories = [
 ];
 
 const templateFilters = [
-  { label: "Republic Day", icon: "🇮🇳" },
-  { label: "Happy Birthday", icon: "🎂" },
-  { label: "Print", icon: "🖨️" },
-  { label: "Business", icon: "💼" },
-  { label: "Republic Day India", icon: "🇮🇳" },
-  { label: "Valentine's Day", icon: "❤️" },
+  { label: "All", icon: "✨" },
+  { label: "Social Media", icon: "📱" },
+  { label: "Presentations", icon: "📊" },
+  { label: "Videos", icon: "🎬" },
+  { label: "Posters", icon: "🖼️" },
+  { label: "Logos", icon: "🎨" },
+  { label: "Flyers", icon: "📄" },
+  { label: "Resumes", icon: "📋" },
+  { label: "Business Cards", icon: "💳" },
+  { label: "Invitations", icon: "💌" },
+  { label: "Infographics", icon: "📈" },
+  { label: "Marketing", icon: "📢" },
 ];
 
 interface HeroSectionProps {
