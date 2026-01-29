@@ -77,32 +77,35 @@ const HeroSection = ({ activeTab = "designs", onTabChange = () => { } }: HeroSec
           />
         </form>
 
-        {activeTab === "designs" ? (
-          <div className="flex flex-wrap items-center justify-center gap-6 mt-10 animate-in fade-in zoom-in duration-500">
-            {categories.map((category) => (
-              <CategoryIcon
-                key={category.label}
-                icon={category.icon}
-                label={category.label}
-                bgColor={category.bgColor}
-                iconColor={category.iconColor}
-                onClick={() => handleCategoryClick(category.label)}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="flex flex-wrap items-center justify-center gap-3 mt-4 animate-in fade-in slide-in-from-top-4 duration-500">
-            {templateFilters.map((filter) => (
-              <button
-                key={filter.label}
-                className="px-4 py-2 rounded-full bg-white/90 hover:bg-white text-gray-700 text-sm font-medium transition-all shadow-sm flex items-center gap-2"
-              >
-                <span>{filter.icon}</span>
-                {filter.label}
-              </button>
-            ))}
-          </div>
-        )}
+        {/* Fixed height container to prevent layout shift on tab change */}
+        <div className="min-h-[120px] flex items-start justify-center mt-6">
+          {activeTab === "designs" ? (
+            <div className="flex flex-wrap items-center justify-center gap-6 animate-in fade-in duration-300">
+              {categories.map((category) => (
+                <CategoryIcon
+                  key={category.label}
+                  icon={category.icon}
+                  label={category.label}
+                  bgColor={category.bgColor}
+                  iconColor={category.iconColor}
+                  onClick={() => handleCategoryClick(category.label)}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-wrap items-center justify-center gap-3 animate-in fade-in duration-300">
+              {templateFilters.map((filter) => (
+                <button
+                  key={filter.label}
+                  className="px-4 py-2 rounded-full bg-white/90 hover:bg-white text-gray-700 text-sm font-medium transition-all shadow-sm flex items-center gap-2"
+                >
+                  <span>{filter.icon}</span>
+                  {filter.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );
