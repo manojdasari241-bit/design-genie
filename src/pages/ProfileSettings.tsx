@@ -115,7 +115,7 @@ const ProfileSettings = () => {
     return (
       <div className="flex min-h-screen bg-background">
         <Sidebar />
-        <div className="flex-1 p-8">
+        <div className="flex-1 p-8 ml-20">
           <Skeleton className="h-10 w-48 mb-8" />
           <Skeleton className="h-96 max-w-2xl rounded-xl" />
         </div>
@@ -127,7 +127,7 @@ const ProfileSettings = () => {
     return (
       <div className="flex min-h-screen bg-background">
         <Sidebar />
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex-1 flex items-center justify-center ml-20">
           <div className="text-center">
             <User className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
             <h2 className="text-2xl font-semibold mb-2">Sign in to access settings</h2>
@@ -144,7 +144,7 @@ const ProfileSettings = () => {
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar />
-      <div className="flex-1 p-8">
+      <div className="flex-1 p-8 ml-20">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
@@ -275,8 +275,8 @@ const ProfileSettings = () => {
                     {user.app_metadata?.provider === "google"
                       ? "Google"
                       : user.app_metadata?.provider === "github"
-                      ? "GitHub"
-                      : "Email"}
+                        ? "GitHub"
+                        : "Email"}
                   </p>
                 </div>
               </div>

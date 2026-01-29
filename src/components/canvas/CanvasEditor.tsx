@@ -30,6 +30,7 @@ const CanvasEditor = forwardRef<CanvasEditorRef, CanvasEditorProps>(
     const [historyIndex, setHistoryIndex] = useState(-1);
     const [isLoaded, setIsLoaded] = useState(false);
     const [layersKey, setLayersKey] = useState(0); // Force layers panel refresh
+    const [updateKey, setUpdateKey] = useState(0); // For forcing re-renders
 
     const { user } = useAuth();
 
@@ -385,7 +386,8 @@ const CanvasEditor = forwardRef<CanvasEditorRef, CanvasEditorProps>(
 
         selectedObject.set(property as keyof FabricObject, value);
         fabricRef.current.renderAll();
-        setSelectedObject({ ...selectedObject } as FabricObject);
+        // Force re-render to update UI without destroying the object prototype
+        setUpdateKey(prev => prev + 1);
         saveToHistory();
         onCanvasChange?.();
       },

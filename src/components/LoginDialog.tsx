@@ -30,7 +30,7 @@ const LoginDialog = ({ open, onOpenChange, onSuccess }: LoginDialogProps) => {
         setLoading(true);
 
         if (isSignUp) {
-            const { error } = await supabase.auth.signUp({
+            const { data, error } = await supabase.auth.signUp({
                 email,
                 password,
                 options: {
@@ -39,11 +39,23 @@ const LoginDialog = ({ open, onOpenChange, onSuccess }: LoginDialogProps) => {
             });
 
             if (error) {
+                let description = error.message;
+                if (error.message.includes("rate limit")) {
+                    description = "Too many attempts. Please wait a while or contact support.";
+                }
+
                 toast({
                     variant: "destructive",
                     title: "Sign up failed",
-                    description: error.message,
+                    description,
                 });
+            } else if (data.session) {
+                toast({
+                    title: "Welcome!",
+                    description: "Account created successfully.",
+                });
+                onOpenChange(false);
+                onSuccess?.();
             } else {
                 toast({
                     title: "Check your email",
@@ -58,10 +70,18 @@ const LoginDialog = ({ open, onOpenChange, onSuccess }: LoginDialogProps) => {
             });
 
             if (error) {
+                let title = "Login failed";
+                let description = error.message;
+
+                if (error.message.includes("Email not confirmed")) {
+                    title = "Account not verified";
+                    description = "Please check your email for the confirmation link. If you didn't receive it, wait a few minutes and try again.";
+                }
+
                 toast({
                     variant: "destructive",
-                    title: "Login failed",
-                    description: error.message,
+                    title,
+                    description,
                 });
             } else {
                 toast({
