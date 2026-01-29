@@ -26,9 +26,9 @@ const categories = [
   { icon: PenTool, label: "Whiteboard", bgColor: "bg-white", iconColor: "text-category-cyan" },
   { icon: Table2, label: "Sheet", bgColor: "bg-white", iconColor: "text-category-green" },
   { icon: Globe, label: "Website", bgColor: "bg-white", iconColor: "text-category-purple" },
-  { icon: Maximize2, label: "Custom size", bgColor: "bg-white/90", iconColor: "text-gray-600" },
-  { icon: Upload, label: "Upload", bgColor: "bg-white/90", iconColor: "text-gray-600" },
-  { icon: MoreHorizontal, label: "More", bgColor: "bg-white/90", iconColor: "text-gray-600" },
+  { icon: Maximize2, label: "Custom size", bgColor: "bg-white/90", iconColor: "text-muted-foreground" },
+  { icon: Upload, label: "Upload", bgColor: "bg-white/90", iconColor: "text-muted-foreground" },
+  { icon: MoreHorizontal, label: "More", bgColor: "bg-white/90", iconColor: "text-muted-foreground" },
 ];
 
 const templateFilters = [
@@ -49,9 +49,16 @@ const templateFilters = [
 interface HeroSectionProps {
   activeTab?: string;
   onTabChange?: (tab: string) => void;
+  selectedFilter?: string;
+  onFilterChange?: (filter: string) => void;
 }
 
-const HeroSection = ({ activeTab = "designs", onTabChange = () => { } }: HeroSectionProps) => {
+const HeroSection = ({ 
+  activeTab = "designs", 
+  onTabChange = () => {}, 
+  selectedFilter = "All",
+  onFilterChange = () => {}
+}: HeroSectionProps) => {
   const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
 
@@ -98,19 +105,24 @@ const HeroSection = ({ activeTab = "designs", onTabChange = () => { } }: HeroSec
                 />
               ))}
             </div>
-          ) : (
+          ) : activeTab === "templates" ? (
             <div className="flex flex-wrap items-center justify-center gap-3 animate-in fade-in duration-300">
               {templateFilters.map((filter) => (
                 <button
                   key={filter.label}
-                  className="px-4 py-2 rounded-full bg-white/90 hover:bg-white text-gray-700 text-sm font-medium transition-all shadow-sm flex items-center gap-2"
+                  onClick={() => onFilterChange(filter.label)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 flex items-center gap-2 shadow-sm
+                    ${selectedFilter === filter.label 
+                      ? "bg-primary text-primary-foreground scale-105 shadow-md" 
+                      : "bg-white/90 hover:bg-white hover:scale-105 text-foreground/80 hover:text-foreground"
+                    }`}
                 >
                   <span>{filter.icon}</span>
                   {filter.label}
                 </button>
               ))}
             </div>
-          )}
+          ) : null}
         </div>
       </div>
     </section>

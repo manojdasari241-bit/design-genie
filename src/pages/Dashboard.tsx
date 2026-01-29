@@ -5,6 +5,7 @@ import HeroSection from "@/components/HeroSection";
 import TemplatesSection from "@/components/TemplatesSection";
 import RecentDesigns from "@/components/RecentDesigns";
 import TemplatesFeed from "@/components/TemplatesFeed";
+import DesignAI from "@/components/DesignAI";
 import MobileNav from "@/components/MobileNav";
 import { Sparkles } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
@@ -13,6 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 const Dashboard = () => {
   const { user, profile, loading } = useAuth();
   const [activeTab, setActiveTab] = useState("designs");
+  const [selectedFilter, setSelectedFilter] = useState("All");
 
   const getInitials = () => {
     if (profile?.display_name) {
@@ -58,10 +60,17 @@ const Dashboard = () => {
           </Link>
         </div>
 
-        <HeroSection activeTab={activeTab} onTabChange={setActiveTab} />
+        <HeroSection 
+          activeTab={activeTab} 
+          onTabChange={setActiveTab} 
+          selectedFilter={selectedFilter}
+          onFilterChange={setSelectedFilter}
+        />
 
-        {activeTab === "templates" ? (
-          <TemplatesFeed />
+        {activeTab === "ai" ? (
+          <DesignAI />
+        ) : activeTab === "templates" ? (
+          <TemplatesFeed selectedFilter={selectedFilter} />
         ) : (
           <>
             <TemplatesSection />
