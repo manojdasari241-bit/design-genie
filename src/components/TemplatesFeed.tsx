@@ -1,7 +1,14 @@
 import { ChevronRight, Play, Heart, MoreHorizontal, HelpCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const TemplateCard = ({ title, category, type = "image", color = "bg-purple-100" }: { title: string, category: string, type?: "image" | "video", color?: string }) => (
+interface TemplateCardProps {
+  title: string;
+  category: string;
+  type?: "image" | "video";
+  color?: string;
+}
+
+const TemplateCard = ({ title, category, type = "image", color = "bg-purple-100" }: TemplateCardProps) => (
     <div className="group relative flex-shrink-0 w-[240px] cursor-pointer">
         <div className={`aspect-[4/3] rounded-xl ${color} overflow-hidden relative transition-all duration-300 group-hover:shadow-lg`}>
             {/* Placeholder specific graphics/gradients */}
@@ -16,10 +23,10 @@ const TemplateCard = ({ title, category, type = "image", color = "bg-purple-100"
             {/* Hover actions */}
             <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                 <button className="p-1.5 bg-white/90 rounded-md hover:bg-white shadow-sm">
-                    <Heart className="w-4 h-4 text-gray-600" />
+                    <Heart className="w-4 h-4 text-muted-foreground" />
                 </button>
                 <button className="p-1.5 bg-white/90 rounded-md hover:bg-white shadow-sm">
-                    <MoreHorizontal className="w-4 h-4 text-gray-600" />
+                    <MoreHorizontal className="w-4 h-4 text-muted-foreground" />
                 </button>
             </div>
         </div>
@@ -51,7 +58,38 @@ const SectionHeader = ({ title }: { title: string }) => (
     </div>
 );
 
-const TemplatesFeed = () => {
+// Template data with categories
+const allTemplates = [
+  { title: "Minimalist Resume", category: "Resumes", color: "bg-stone-100" },
+  { title: "Modern Business Corp", category: "Logos", color: "bg-slate-100" },
+  { title: "Aesthetic Layout", category: "Social Media", color: "bg-zinc-100" },
+  { title: "Pure Design Studio", category: "Marketing", color: "bg-neutral-100" },
+  { title: "Fashion Collection", category: "Presentations", color: "bg-amber-50" },
+  { title: "Tech Startup Pitch", category: "Presentations", color: "bg-blue-50" },
+  { title: "Diwali Festival", category: "Social Media", color: "bg-red-100" },
+  { title: "Freedom Sale", category: "Posters", color: "bg-orange-50" },
+  { title: "Wedding Invitation", category: "Invitations", color: "bg-rose-50" },
+  { title: "Hiring Now", category: "Social Media", color: "bg-blue-50" },
+  { title: "Summer Menu", category: "Flyers", color: "bg-yellow-50" },
+  { title: "Promo Video Intro", category: "Videos", color: "bg-purple-100", type: "video" as const },
+  { title: "Data Insights", category: "Infographics", color: "bg-emerald-50" },
+  { title: "Professional Card", category: "Business Cards", color: "bg-gray-100" },
+  { title: "Brand Guidelines", category: "Marketing", color: "bg-indigo-50" },
+];
+
+interface TemplatesFeedProps {
+  selectedFilter?: string;
+}
+
+const TemplatesFeed = ({ selectedFilter = "All" }: TemplatesFeedProps) => {
+    // Filter templates based on selected filter
+    const filteredTemplates = selectedFilter === "All" 
+      ? allTemplates 
+      : allTemplates.filter(t => t.category === selectedFilter);
+    
+    const trendingTemplates = selectedFilter === "All"
+      ? allTemplates.slice(6, 11)
+      : allTemplates.filter(t => t.category === selectedFilter).slice(0, 5);
     return (
         <div className="px-8 py-8 space-y-12 pb-20">
 
@@ -72,24 +110,33 @@ const TemplatesFeed = () => {
                 </div>
             </section>
 
-            {/* Inspired by your designs */}
+            {/* Filtered Templates Section */}
             <section>
-                <SectionHeader title="Inspired by your designs" />
-                <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
-                    <TemplateCard title="Minimalist Resume" category="Resume" color="bg-stone-100" />
-                    <TemplateCard title="Modern Business Corp" category="Logo" color="bg-slate-100" />
-                    <TemplateCard title="Aesthetic Layout" category="Instagram Post" color="bg-zinc-100" />
-                    <TemplateCard title="Pure Design Studio" category="Website" color="bg-neutral-100" />
-                    <TemplateCard title="Fashion Collection" category="Presentation" color="bg-amber-50" />
-                    <TemplateCard title="Tech Startup Pitch" category="Presentation" color="bg-blue-50" />
-                </div>
+                <SectionHeader title={selectedFilter === "All" ? "Inspired by your designs" : `${selectedFilter} Templates`} />
+                {filteredTemplates.length > 0 ? (
+                  <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
+                      {filteredTemplates.slice(0, 6).map((template, index) => (
+                          <TemplateCard 
+                            key={`${template.title}-${index}`}
+                            title={template.title} 
+                            category={template.category} 
+                            color={template.color}
+                            type={template.type}
+                          />
+                      ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12 text-muted-foreground">
+                    <p>No templates found for "{selectedFilter}"</p>
+                  </div>
+                )}
             </section>
 
             {/* What's new */}
             <section>
                 <SectionHeader title="What's new" />
                 <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
-                    <div className="flex-shrink-0 w-[300px] h-[160px] rounded-xl bg-gradient-to-r from-orange-400 to-rose-400 p-6 text-white relative overflow-hidden cursor-pointer hover:shadow-lg transition-all">
+                    <div className="flex-shrink-0 w-[300px] h-[160px] rounded-xl bg-gradient-to-r from-category-orange to-category-pink p-6 text-white relative overflow-hidden cursor-pointer hover:shadow-lg transition-all">
                         <h3 className="font-bold text-lg mb-1">Celebrate</h3>
                         <p className="text-white/90 text-sm">Indian heritage</p>
                         <div className="absolute bottom-4 right-4 bg-white/20 p-2 rounded-lg backdrop-blur-sm">
@@ -97,7 +144,7 @@ const TemplatesFeed = () => {
                         </div>
                     </div>
 
-                    <div className="flex-shrink-0 w-[300px] h-[160px] rounded-xl bg-gradient-to-r from-emerald-400 to-teal-500 p-6 text-white relative overflow-hidden cursor-pointer hover:shadow-lg transition-all">
+                    <div className="flex-shrink-0 w-[300px] h-[160px] rounded-xl bg-gradient-to-r from-category-green to-category-teal p-6 text-white relative overflow-hidden cursor-pointer hover:shadow-lg transition-all">
                         <h3 className="font-bold text-lg mb-1">Money talks</h3>
                         <p className="text-white/90 text-sm">made easy</p>
                         <div className="absolute bottom-4 right-4 bg-white/20 p-2 rounded-lg backdrop-blur-sm">
@@ -105,7 +152,7 @@ const TemplatesFeed = () => {
                         </div>
                     </div>
 
-                    <div className="flex-shrink-0 w-[300px] h-[160px] rounded-xl bg-gradient-to-r from-fuchsia-500 to-purple-600 p-6 text-white relative overflow-hidden cursor-pointer hover:shadow-lg transition-all">
+                    <div className="flex-shrink-0 w-[300px] h-[160px] rounded-xl bg-gradient-to-r from-category-pink to-category-purple p-6 text-white relative overflow-hidden cursor-pointer hover:shadow-lg transition-all">
                         <h3 className="font-bold text-lg mb-1">Vacation</h3>
                         <p className="text-white/90 text-sm">vibes are on</p>
                     </div>
@@ -116,17 +163,21 @@ const TemplatesFeed = () => {
             <section>
                 <SectionHeader title="Trending near you" />
                 <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
-                    <TemplateCard title="Diwali Festival" category="Instagram Post" color="bg-red-100" />
-                    <TemplateCard title="Freedom Sale" category="Poster" color="bg-orange-50" />
-                    <TemplateCard title="Wedding Invitation" category="Invitation" color="bg-rose-50" />
-                    <TemplateCard title="Hiring Now" category="Linkedin Post" color="bg-blue-50" />
-                    <TemplateCard title="Summer Menu" category="Menu" color="bg-yellow-50" />
+                    {trendingTemplates.map((template, index) => (
+                      <TemplateCard 
+                        key={`trending-${template.title}-${index}`}
+                        title={template.title} 
+                        category={template.category} 
+                        color={template.color}
+                        type={template.type}
+                      />
+                    ))}
                 </div>
             </section>
 
             {/* Quick Help Button (FAB) */}
             <div className="fixed bottom-8 right-8">
-                <button className="w-12 h-12 bg-primary text-white rounded-full shadow-lg flex items-center justify-center hover:bg-primary/90 transition-colors animate-in fade-in zoom-in">
+                <button className="w-12 h-12 bg-primary text-primary-foreground rounded-full shadow-lg flex items-center justify-center hover:bg-primary/90 transition-colors animate-in fade-in zoom-in">
                     <HelpCircle className="w-6 h-6" />
                 </button>
             </div>
